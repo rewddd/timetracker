@@ -1,0 +1,61 @@
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Hello React!</title>
+    <script src="build/react.js"></script>
+    <script src="build/react-dom.js"></script>
+    <script src="build/browser.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+<div id="intervalList" align="center"></div>
+
+<script type="text/babel">
+
+
+
+      var Interval = React.createClass({
+        render: function () {
+          return (<h2>Start {this.props.start}; Koniec: {this.props.end}</h2>);
+        }
+      });
+
+      var IntervalList = React.createClass({
+
+      getInitialState: function() {
+    return {
+    };
+  },
+
+render: function() {
+var indents = [];
+
+jQuery.ajaxSetup({async:false});
+$.get(this.props.source, function(result) {
+
+    $.map(result, function(data) {
+    console.log(data);
+  indents.push(<Interval start={data.start.sec} end={data.end.sec}/>);
+    });
+});
+
+return (
+   <div>
+    {indents}
+   </div>
+);
+
+}});
+
+      ReactDOM.render(
+        <IntervalList source="http://localhost:8000/index.php/intervals" />,
+        document.getElementById('intervalList')
+      );
+    </script>
+</body>
+</html>
